@@ -39,6 +39,12 @@ const float transitionDuration = 4.0f;
 float simulationTime = 0.0f;
 const float simulationFixedStep = 1.0f / 60.0f;
 
+bool playModeLightingSnapshotValid = false;
+TimeOfDay playModeStartTime = TimeOfDay::Noon;
+TimeOfDay playModeStartTargetTime = TimeOfDay::Dusk;
+float playModeStartTransitionProgress = 1.0f;
+bool playModeStartDayCyclePlaying = false;
+
 vec3 grassPosition(0.0f);
 vec3 grassRotation(0.0f);
 vec3 grassScale(1.0f);
@@ -567,6 +573,11 @@ void StartSimulation()
 {
 	if (!simulationPlaying)
 	{
+		playModeStartTime = currentTime;
+		playModeStartTargetTime = targetTime;
+		playModeStartTransitionProgress = transitionProgress;
+		playModeStartDayCyclePlaying = dayCyclePlaying;
+		playModeLightingSnapshotValid = true;
 		simulationPlaying = true;
 		simulationPaused = false;
 		simulationTime = 0.0f;
@@ -575,6 +586,27 @@ void StartSimulation()
 	else
 	{
 		simulationPaused = false;
+	}
+}
+
+void StopSimulation()
+{
+	if (!simulationPlaying)
+		return;
+
+	simulationPlaying = false;
+	simulationPaused = false;
+	simulationStepRequested = false;
+	simulationTime = 0.0f;
+
+	if (playModeLightingSnapshotValid)
+	{
+		currentTime = playModeStartTime;
+		targetTime = playModeStartTargetTime;
+		transitionProgress = playModeStartTransitionProgress;
+		dayCyclePlaying = playModeStartDayCyclePlaying;
+		ApplyLighting(currentTime, targetTime, transitionProgress);
+		playModeLightingSnapshotValid = false;
 	}
 }
 
@@ -588,10 +620,8 @@ void StepSimulation()
 {
 	if (!simulationPlaying)
 	{
-		simulationPlaying = true;
+		StartSimulation();
 		simulationPaused = true;
-		simulationTime = 0.0f;
-		StartDayCycle();
 	}
 	else
 	{

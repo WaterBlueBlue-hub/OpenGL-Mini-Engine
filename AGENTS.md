@@ -78,6 +78,10 @@ interaction feedback, so changing one must not silently change the other.
 - Floating views can be moved by their title bar and returned with Dock.
 - Default scene object names `Main Camera`, `Directional Light`, and
   `Ambient Light` remain in English in both UI languages.
+- The play/stop transport button toggles play mode. Clicking it while the
+  simulation is running or paused stops the simulation, resets simulation time,
+  and restores the lighting state captured before play mode started.
+- The pause transport button toggles between pause and resume.
 
 ## Inspector layout
 

@@ -140,6 +140,7 @@ void CreateSceneObject(CreatedObjectKind kind, const char* baseName);
 void LoadScenePreset(const std::string& assetPath);
 void SetStaticTimeOfDay(TimeOfDay time);
 void StartSimulation();
+void StopSimulation();
 void PauseSimulation();
 void StepSimulation();
 void ToggleProjection();

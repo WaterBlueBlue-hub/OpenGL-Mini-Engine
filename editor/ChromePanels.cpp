@@ -24,7 +24,7 @@ namespace
 		ImGui::TextColored(ImVec4(0.55f, 0.78f, 1.0f, 1.0f), "OPENGL MINI ENGINE");
 		ImGui::SameLine(205.0f);
 
-		const bool playActive = simulationPlaying && !simulationPaused;
+		const bool playActive = simulationPlaying;
 		const bool pauseActive = simulationPlaying && simulationPaused;
 		auto transportButton = [](const char* id, int icon, bool active, const char* tooltip)
 		{
@@ -38,7 +38,7 @@ namespace
 
 			ImU32 background = IM_COL32(41, 53, 73, 255);
 			if (active)
-				background = icon == 0 ? IM_COL32(36, 126, 72, 255) : IM_COL32(158, 111, 31, 255);
+				background = icon == 1 ? IM_COL32(158, 111, 31, 255) : IM_COL32(36, 126, 72, 255);
 			else if (hovered)
 				background = IM_COL32(57, 83, 122, 255);
 			drawList->AddRectFilled(min, max, background, 3.0f);
@@ -58,6 +58,15 @@ namespace
 				drawList->AddRectFilled(ImVec2(center.x - 7.0f, center.y - 8.0f), ImVec2(center.x - 2.0f, center.y + 8.0f), iconColor, 1.0f);
 				drawList->AddRectFilled(ImVec2(center.x + 2.0f, center.y - 8.0f), ImVec2(center.x + 7.0f, center.y + 8.0f), iconColor, 1.0f);
 			}
+			else if (icon == 3)
+			{
+				drawList->AddRectFilled(
+					ImVec2(center.x - 7.0f, center.y - 7.0f),
+					ImVec2(center.x + 7.0f, center.y + 7.0f),
+					iconColor,
+					1.0f
+				);
+			}
 			else
 			{
 				drawList->AddTriangleFilled(
@@ -73,11 +82,31 @@ namespace
 			return pressed;
 		};
 
-		if (transportButton("##Play", 0, playActive, Tr("播放", "Play")))
-			StartSimulation();
+		if (transportButton(
+			"##Play",
+			simulationPlaying ? 3 : 0,
+			playActive,
+			simulationPlaying ? Tr("结束", "Stop") : Tr("播放", "Play")
+		))
+		{
+			if (simulationPlaying)
+				StopSimulation();
+			else
+				StartSimulation();
+		}
 		ImGui::SameLine();
-		if (transportButton("##Pause", 1, pauseActive, Tr("暂停", "Pause")))
-			PauseSimulation();
+		if (transportButton(
+			"##Pause",
+			1,
+			pauseActive,
+			simulationPaused ? Tr("继续", "Resume") : Tr("暂停", "Pause")
+		))
+		{
+			if (simulationPaused)
+				StartSimulation();
+			else
+				PauseSimulation();
+		}
 		ImGui::SameLine();
 		if (transportButton("##Step", 2, false, Tr("单帧步进", "Step one frame")))
 			StepSimulation();

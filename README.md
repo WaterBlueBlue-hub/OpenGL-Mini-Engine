@@ -46,8 +46,8 @@ framework. It is not presented as a complete game engine.
 | Left click | Select an object in the Scene View |
 | `W` / `E` / `R` | Move / rotate / scale tool |
 | `F` | Focus the Scene View on the selected object |
-| Play button | Start or resume simulation time |
-| Pause button | Freeze simulation time |
+| Play/Stop button | Start simulation, then stop and restore the pre-play state |
+| Pause button | Pause or resume simulation time |
 | Step button | Advance exactly one `1/60 s` simulation frame |
 | Top UI buttons | Change projection, lighting, and language |
 
