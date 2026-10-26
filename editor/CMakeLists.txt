@@ -1,0 +1,3 @@
+file(GLOB_RECURSE EDITOR_SOURCES CONFIGURE_DEPENDS ./*.cpp)
+add_library(editor ${EDITOR_SOURCES})
+

@@ -1,0 +1,15 @@
+/build/
+/out/
+/.vs/
+/imgui.ini
+
+# Local project media is intentionally not distributed.
+/assets/Assets/Models/*
+!/assets/Assets/Models/.gitkeep
+/assets/Assets/Textures/*
+!/assets/Assets/Textures/.gitkeep
+
+/thirdParty/include/assimp/
+/thirdParty/lib/assimp*
+/thirdParty/lib/zlib*
+
